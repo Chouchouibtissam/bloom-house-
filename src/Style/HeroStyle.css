@@ -6,19 +6,13 @@
             flex-direction:'row';
     }
     .house-Img{
-        align-items: center;
         width: 50vw;
         height: 100vh;
     }
-    .container {
+    .description {
         text-align: left;
-        text-justify: auto;
         margin-top: 150px;
-        margin-left: 50px;
-    }
-    .button {
-        background-color: black;
-        color: blueviolet;
+        margin-left: 150px;
     }
 }
 
