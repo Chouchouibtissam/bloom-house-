@@ -1,17 +1,39 @@
 import { Button, Typography,Box, styled } from "@mui/material";
-import { useState } from "react";
 import HouseImg from "../media/For sale-bro.png";
 import "../Style/HeroStyle.css";
+import GoogleLogin from "react-google-login";
+import axios from "axios";
+// get env vars
+const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+const drfClientId = process.env.REACT_APP_DRF_CLIENT_ID;
+const drfClientSecret = process.env.REACT_APP_DRF_CLIENT_SECRET;
+const baseURL = "http://localhost:3000";
+
+const handleGoogleLogin = (response) => {
+  axios
+    .post(`${baseURL}/auth/convert-token`, {
+      token: response.accessToken,
+      backend: "google-oauth2",
+      grant_type: "convert_token",
+      client_id: drfClientId,
+      client_secret: drfClientSecret,
+    })
+    .then((res) => {
+      const { access_token, refresh_token } = res.data;
+      console.log({ access_token, refresh_token });
+      localStorage.setItem("access_token", access_token);
+      localStorage.setItem("refresh_token", refresh_token);
+    })
+    .catch((err) => {
+      console.log("Error Google login", err);
+    });
+};
 
 
 const Hero = () =>{
-    const [clicked, setClicked]= useState(false);
-    function handleclick  (clicked) {
-     setClicked(!clicked);
-    }
     
     const AuthButton = styled(Button)(({theme}) => ({
-        backgroundColor: clicked ? "#202336" : "#16537e",
+        backgroundColor: "#202336" ,
         color:"white",
         width:"200px",
         marginBlock:"30px",
@@ -19,9 +41,8 @@ const Hero = () =>{
         textAlign:"center",
         paddingBlock:"10px",
         borderRadius:"0px",
-        onClick : {handleclick},
         "&:hover":{
-            backgroundColor:clicked ? "#202336" : "#16537e"
+            backgroundColor: "#202336" 
         }
         
         
@@ -40,9 +61,19 @@ const Hero = () =>{
                          purchase and Rental of real estate
                       </Typography>
                       <span>
-                        <AuthButton 
-                          onClick={handleclick}>s'inscrire</AuthButton>
-                        <AuthButton onClick={handleclick}>se connecter</AuthButton>
+                        <GoogleLogin
+                        clientId={googleClientId}
+                        onSuccess={(response) => handleGoogleLogin(response)}
+                        render={(renderProps) => (
+                            <AuthButton
+                             onClick={renderProps.onClick}
+                             disabled={renderProps.disabled}
+                            >
+                              s'inscrire
+                            </AuthButton>)}
+                            onFailure={(err) => console.log("Google Login failed", err)}
+                        />       
+                        <AuthButton >se connecter</AuthButton>
                       </span>  
             </div>
             <Box>
