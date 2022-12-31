@@ -7,7 +7,7 @@ import axios from "axios";
 const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
 const drfClientId = process.env.REACT_APP_DRF_CLIENT_ID;
 const drfClientSecret = process.env.REACT_APP_DRF_CLIENT_SECRET;
-const baseURL = "http://localhost:3000";
+const baseURL = "http://localhost:8000";
 
 const handleGoogleLogin = (response) => {
   axios

@@ -19,6 +19,7 @@ from bloomHouse import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('',include("bloomHouse.urls")),
     path('',views.index, name='login'),
-    path('auth/',include('drf_social_oauth2.urls',namespace='drf')) 
+   
 ]

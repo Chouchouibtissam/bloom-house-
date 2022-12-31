@@ -1,17 +1,20 @@
-import Hero from "./Components/Hero"
 
-function App() {
+import GoogleAuth from './Components/GoogleAuth';
+import React, { Component } from "react"
+import {render} from "react-dom";
+
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+import Home from "./Components/Home";
+
+function App(props) {
   return (
-    <body>
-      <div className="App">
-       <header className="App-header">
-        <a>
-          Bloom House.
-        </a>
-       </header>
-     </div>
-      <Hero />
-    </body>
+    <Router>
+            <Routes>
+                <Route path='/' element={<GoogleAuth/>} />
+                <Route path='/Home' element={<Home/>} />
+            </Routes>      
+         
+        </Router>
   );
 }
 
