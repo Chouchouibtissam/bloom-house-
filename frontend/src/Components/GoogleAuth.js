@@ -1,9 +1,9 @@
 import { Typography, Box } from "@mui/material";
 import React, { useEffect, useRef } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import HouseImg from "../media/For sale-bro.png";
 import "../Style/HeroStyle.css";
-import Home from './Home';
+
 const loadScript = (src) =>
   new Promise((resolve, reject) => {
     if (document.querySelector(`script[src="${src}"]`)) return resolve()
@@ -14,9 +14,12 @@ const loadScript = (src) =>
     document.body.appendChild(script)
   })
 
+ 
+
 const GoogleAuth = () => {
 
-  const googleButton = useRef()
+  const googleButton = useRef();
+  const navigate = useNavigate();
 
 
   useEffect(() => {
@@ -32,7 +35,7 @@ const GoogleAuth = () => {
           client_id: id,
           callback: handleCredentialResponse,
         })
-        google.accounts.id.renderButton( //The google Sign in Button customized
+        google.accounts.id.renderButton( //The google Sign in Button 
           googleButton.current,
           {
             theme: 'outline',
@@ -63,8 +66,7 @@ const GoogleAuth = () => {
         })
         .then((res) => res.json())
         .then((res) => {
-          document.getElementById("email_id").innerText = res['email']
-          document.getElementById("auth_token").innerText = res['tokens']
+          navigate('/Ajouterannonce', {state : {userId : res['user_id']}})
         })
 
     }
@@ -93,6 +95,10 @@ const GoogleAuth = () => {
             <div>
               <label>Auth token:</label>
               <label id='auth_token'></label>
+            </div>
+            <div>
+              <label>User id:</label>
+              <label id='user_id'></label>
             </div>
 
           </div>

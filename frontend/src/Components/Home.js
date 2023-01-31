@@ -1,16 +1,18 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import { useLocation } from "react-router-dom";
 
-function Home(props) {
-  return (
-  
-    <h1> This is our homepage</h1>
 
+const Home = () =>{
+    const location = useLocation();
+   let userId = location.state.userId;
+   console.log(userId)
+   return (
+    <body >
+     <h1>
+        `Welcome to your home page ${userId}`
+
+     </h1>
+    </body>
+    
   );
 }
-
-Home.propTypes = {
-  window: PropTypes.func,
-};
-
-export default Home;
+ export default Home;
