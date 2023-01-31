@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import HouseImg from "../media/For sale-bro.png";
 import "../Style/HeroStyle.css";
-
+import Home from '../Pages/Home.js';
 const loadScript = (src) =>
   new Promise((resolve, reject) => {
     if (document.querySelector(`script[src="${src}"]`)) return resolve()
