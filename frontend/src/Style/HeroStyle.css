@@ -14,6 +14,16 @@
         margin-top: 150px;
         margin-left: 150px;
     }
+    .form{
+        margin-top: 10px;
+        margin-bottom: 5px;
+        
+    }
+    .button{
+        margin-top: 20px;
+        margin-left: 10px;
+        
+    }
 }
 
 @media (min-width: 992px) and (max-width: 1199px){

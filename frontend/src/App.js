@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import GoogleAuth from './Components/GoogleAuth';
 import React from "react";
 import Home from "./Pages/Home";
@@ -7,10 +7,11 @@ import Recherche from './Pages/Recherche';
 import ContactUs from './Pages/ContactUs';
 import Footer from './Pages/Footer';
 import AjouterAnnonce from './Components/Annonce/AjouterAnnonce';
+import GridComplexExample from './Components/Annonce/AfficherAnnonce';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App(props) {
   return (
-    <Router>
       <Routes>
         <Route path='/' element={<GoogleAuth />} />
         <Route path='/Home' element={
@@ -23,7 +24,6 @@ function App(props) {
           </div>} />
         <Route path='/Ajouterannonce' element={<AjouterAnnonce />} />
       </Routes>
-    </Router>
   );
 }
 
