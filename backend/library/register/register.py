@@ -14,7 +14,6 @@ def register_social_user(provider, user_id, email, name):
     if filtered_user_by_email.exists(): #if the user is found in the database 
         if provider == filtered_user_by_email[0].auth_provider: #Check if the auth_provider field of the user is the same as the provider
             new_user = User.objects.get(email=email) #If so then retrieve the one object that matches the email given as an argument
-
             registered_user = User.objects.get(email=email)
             registered_user.check_password(settings.SOCIAL_SECRET) #Checks if the password of the user retrived earlier is the same as Google auth secret
 
@@ -22,19 +21,19 @@ def register_social_user(provider, user_id, email, name):
             Token.objects.create(user=registered_user) #Create a new user in the same table 
             new_token = list(Token.objects.filter(
                 user_id=registered_user).values("key")) #Gets the new token associated to the user
-
             return {
                 'username': registered_user.username, #returns the already registrered user email
                 'email': registered_user.email, #returns the already registrered user email
-                'tokens': str(new_token[0]['key'])} #Convert the token value to a string
-
+                'tokens': str(new_token[0]['key']),  #Convert the token value to a string
+                'user_id': registered_user.user_id,
+                }
         else:
             raise AuthenticationFailed(
                 detail='Please continue your login using ' + filtered_user_by_email[0].auth_provider) #Case where the provider is different
 
     else: #If the user doesn't already exist
         user = { #Create a new user instance with the provided email 
-            'username': email, 'email': email,
+            'username': email, 'email': email, 
             'password': settings.SOCIAL_SECRET
         }
         user = User.objects.create_user(**user) #Create a new object for the new user to store it in the user table in the DB
@@ -49,4 +48,6 @@ def register_social_user(provider, user_id, email, name):
             'email': new_user.email, 
             'username': new_user.username,
             'tokens': str(new_token[0]['key']),
+            'user_id': new_user.user_id,
+            
         }
