@@ -40,6 +40,9 @@ class ContactInfo (models.Model):
     email_contact = models.EmailField()
     telephone_contact = models.IntegerField(default=0)
     adresse_contact = models.CharField(max_length=1000, default="")
+    @property
+    def Contact_id(self):
+        return self.id
 
 #Defining an advert model 
 class Annonce (models.Model):
@@ -50,7 +53,7 @@ class Annonce (models.Model):
     AI_Description = models.CharField(max_length = 1000, default="")
     AI_Prix = models.FloatField(default=0)
     AI_Localisation = models.ForeignKey(Localisation, on_delete=models.CASCADE, null=True)
-    #AI_Contact = models.ForeignKey(ContactInfo)
+    AI_Contact = models.ForeignKey(ContactInfo, on_delete=models.CASCADE, null=True)
     #AI_Photo = models.ImageField()
     @property
     def AI_id (self):

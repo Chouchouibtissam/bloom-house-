@@ -42,7 +42,10 @@ class MesAnnoncesView (viewsets.ModelViewSet):
 
         #queryset = Annonce.objects.filter()
        
-
+class ContactInfoView(viewsets.ModelViewSet):
+    serializer_class = ContactInfoSerializer
+    queryset = ContactInfo.objects.all()
+    
 def index(request):
     return render(request, 'index.html')
 

@@ -9,10 +9,13 @@ router1=DefaultRouter()
 router.register(r'Localisation', views.LocalisationView, basename='Localisation')
 router2= DefaultRouter()
 router2.register(r'mesannonces', views.MesAnnoncesView, basename='mesannonces')
+router3= DefaultRouter()
+router3.register(r'ContactInfo', views.ContactInfoView, basename='ContactInfo')
 
 urlpatterns = [
     path('google/', GoogleSocialAuthView.as_view()), 
     path('annonce/', include(router.urls)),
     path('mesannonces/',include(router2.urls)),
     path('Localisation/',include(router1.urls)),
+    path('ContactInfo/',include(router3.urls)),
 ]
