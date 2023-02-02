@@ -1,9 +1,10 @@
-import { Typography, Box } from "@mui/material";
+import { Typography, Box, createTheme } from "@mui/material";
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import HouseImg from "../media/For sale-bro.png";
+import HouseImg from "../media/house1.png";
 import "../Style/HeroStyle.css";
-import Home from '../Pages/Home.js';
+import { ThemeProvider } from '@mui/material/styles';
+
 const loadScript = (src) =>
   new Promise((resolve, reject) => {
     if (document.querySelector(`script[src="${src}"]`)) return resolve()
@@ -14,7 +15,7 @@ const loadScript = (src) =>
     document.body.appendChild(script)
   })
 
- 
+
 
 const GoogleAuth = () => {
 
@@ -23,14 +24,12 @@ const GoogleAuth = () => {
 
 
   useEffect(() => {
-    const src = 'https://accounts.google.com/gsi/client' //the page that we need to display
+    const src = 'https://accounts.google.com/gsi/client' //the page that allows the user to sign in to his google account
     const id = "988845612593-0i5e8lgedah6mghcn6287ul5g8df6184.apps.googleusercontent.com" //Google client Id
 
     loadScript(src)
       .then(() => {
-
         /*global google*/
-
         google.accounts.id.initialize({ //Initialize the client with id mentionned above
           client_id: id,
           callback: handleCredentialResponse,
@@ -38,8 +37,8 @@ const GoogleAuth = () => {
         google.accounts.id.renderButton( //The google Sign in Button 
           googleButton.current,
           {
-            theme: 'outline',
-            size: 'large',
+            theme: 'dark',
+            size: 'large',     
           }
         )
       })
@@ -52,7 +51,7 @@ const GoogleAuth = () => {
   }, [])
 
 
-
+//Post the token to the backend
   function handleCredentialResponse(response) {
     if (response.credential) {
       var data = { "auth_token": response.credential }
@@ -65,53 +64,51 @@ const GoogleAuth = () => {
           }
         })
         .then((res) => res.json())
-        .then((res) => {
-          navigate('/Ajouterannonce', {state : {userId : res['user_id']}})
+        .then((res) => { //Retrieve the coonected user's id and navigate to the home page
+          navigate('/Ajouterannonce', { state: { userId: res['user_id'] } })
         })
 
     }
   }
 
-  return (
-    <Box sx={{
-      backgroundColor: "#E6F0FF",
-      height: '100vh',
-      display: 'flex',
-      flexDirection: 'row',
-    }}
-    >
-      <div className="description">
-        <Typography variant="h3" >Find your perfect place with Bloom House</Typography>
-        <Typography >Adapt your house to your needs and make it heaven on earth.We provide a complet service for sale,
-          purchase and Rental of real estate
-        </Typography>
-        <div id='google-login-btn'>
-          <div ref={googleButton} id='google-ref'></div>
-          <div>
-            <div>
-              <label>Email Id:</label>
-              <label id='email_id'></label>
-            </div>
-            <div>
-              <label>Auth token:</label>
-              <label id='auth_token'></label>
-            </div>
-            <div>
-              <label>User id:</label>
-              <label id='user_id'></label>
-            </div>
+//Set the style for the typography
+  const theme = createTheme({
+    typography: {
+      fontFamily: "cursive",
+      fontSize: 17
 
+    }
+  })
+
+  return (
+    <div>
+        <Box sx={{
+          display: 'flex',
+          flexDirection: 'row',
+          background:'#E6F0FF',
+          height : 620,
+        }}
+        >
+          <div className="description">
+            <ThemeProvider theme={theme}>
+              <Typography variant="h3" sx={{marginBottom:2}} >Find the suitable place for you with Bloom House now</Typography>
+              <Typography sx={{marginBottom:2}}  >Adapt your house to your needs .We provide a complet service for sale,
+                purchase and Rental of real estate
+              </Typography>
+            </ThemeProvider>
+            <div  id='google-login-btn'>
+              <div className="button" ref={googleButton} id='google-ref'></div>
+            </div>
           </div>
-        </div>
-      </div>
-      <Box>
-        <img
-          className="house-Img"
-          src={HouseImg}
-          alt="House"
-        />
-      </Box>
-    </Box>
+          <div>
+            <img
+              className="house-Img"
+              src={HouseImg}
+              alt="House"
+            />
+          </div>
+        </Box>
+    </div>
   )
 }
 
