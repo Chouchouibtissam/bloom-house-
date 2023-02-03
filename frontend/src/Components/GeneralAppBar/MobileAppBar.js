@@ -2,7 +2,6 @@ import React from 'react'
 import styled from 'styled-components'
 import { FaTimes } from 'react-icons/fa'
 import { Link as LinkRouter } from 'react-router-dom'
-import { Link as LinkScroll } from 'react-scroll'
 
 const MobileAppBarContainer = styled.aside`
 position: fixed;
@@ -38,7 +37,7 @@ grid-template-columns: 1fr;
 grid-template-rows: repeat(6, 80px);
 text-align: center;
 `
-const MobileAppBarLinks = styled(LinkScroll)`
+const MobileAppBarLinks = styled(LinkRouter)`
 display: flex;
 align-items: center;
 justify-content: center;
@@ -82,7 +81,7 @@ const MobileAppBar = ({isOpen, toggle}) => {
       </Icon>
       <MobileAppBarWrapper>
         <MobileAppBarMenu>
-          <MobileAppBarLinks to="Home" onClick={toggle}>Home</MobileAppBarLinks>
+          <MobileAppBarLinks to="/" onClick={toggle}>Home</MobileAppBarLinks>
           <MobileAppBarLinks to="Recherche" onClick={toggle}> Recherche</MobileAppBarLinks>
           <MobileAppBarLinks to="Mesannonces" onClick={toggle}>Mes annonces</MobileAppBarLinks>
           <MobileAppBarLinks to="ContactUs" onClick={toggle}>Contact Us</MobileAppBarLinks>

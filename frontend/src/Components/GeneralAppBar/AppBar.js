@@ -1,12 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link as LinkRouter } from 'react-router-dom';
-import { Link as LinkScroll } from 'react-scroll';
-import { FaBars } from 'react-icons/fa'
-
+import { FaBars } from 'react-icons/fa';
+import '../../index.css';
 
 const Nav = styled.nav`
-background: #fff;
+background: transparent;
+opacity:0.9;
 height:80px;
 /*margin-top: -80px;*/
 display: flex;
@@ -16,9 +16,16 @@ font-size: 1rem;
 position:sticky;
 top:0;
 z-index:10;
+box-shadow: 1px 1px 5px black;
 @media screen and (max-width:960px){
     transition: 0.8s all ease;
 }
+@supports (backdrop-filter: blur(5px)) or (--webkit-backdrop-filter: blur(5px)) {
+    & {
+      background-color: transparent;
+      backdrop-filter: blur(5px);
+    }
+  }
 `
 const NavbarContainer = styled.div`
 display: flex;
@@ -65,7 +72,7 @@ padding-inline-end: 40px;
 const NavItem =styled.li`
 height:80px;
 `
-const NavLinks = styled(LinkScroll)`
+const NavLinks = styled(LinkRouter)`
 font-family: "Akaya Telivigala", cursive;
 color: black;
 display:flex;
@@ -74,7 +81,7 @@ text-decoration:none;
 padding: 0 1rem;
 height:100%;
 cursor:pointer;
-&.active{
+ .active{
     border-bottom: 3px solid blue;
 }
 `
@@ -105,7 +112,6 @@ text-decoration:none;
 }
 `
 const AppBar = ({toggle}) => {
-   
     return(
           <Nav>
             <NavbarContainer>
@@ -115,39 +121,23 @@ const AppBar = ({toggle}) => {
                 </MobileIcon>
                 <NavMenu>
                     <NavItem>
-                     <NavLinks to="Home"
-                      smooth={true} 
-                      duration={10} 
-                      spy={true} 
-                      exact='true' 
-                      offset={-80}
+                     <NavLinks to="/"
+                     activeClassName="active"
                      >Home</NavLinks>
                     </NavItem>
                     <NavItem>
                      <NavLinks to="Recherche" 
-                      smooth={true} 
-                      duration={10} 
-                      spy={true} 
-                      exact='true' 
-                      offset={-80}
+                      activeClassName="active"
                       >Recherche</NavLinks>
                     </NavItem>
                     <NavItem>
                      <NavLinks to="Mesannonces"
-                      smooth={true} 
-                      duration={10} 
-                      spy={true} 
-                      exact='true' 
-                      offset={-80}
+                    activeClassName="active"
                      >Mes annonces</NavLinks>
                     </NavItem>
                     <NavItem>
                      <NavLinks to="ContactUs"
-                      smooth={true} 
-                      duration={10} 
-                      spy={true} 
-                      exact='true' 
-                      offset={-80}
+                      activeClassName="active"
                      >Contact Us</NavLinks>
                     </NavItem>
                 </NavMenu>
