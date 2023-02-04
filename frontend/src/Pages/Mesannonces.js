@@ -1,49 +1,21 @@
-import React from 'react'
-import styled from 'styled-components';
+import React from 'react';
+import { Box } from '@mui/material';
+import { Link } from 'react-router-dom';
+import AfficherAnnonce from '../Components/Annonce/AfficherAnnonce';
 
-const Section = styled.section`
-min-height: calc(100vh - 80px); /* 100px -80px */
-width: 100vw;
-position: relative;
-background-color: white;
-`
-const Container = styled.div`
-width:75%;
-min-height:80vh;
-margin: 0 auto;
-background-color: white;
-display: flex ;
-justify-content: center;
-align-items: center;
-@media screen and (max-width:64em){
-    width: 85%;
-}
-@media screen and (max-width:48em){
-    flex-direction: column-reverse;
-    width:100%;
-    &>*:first-child{
-        width:100%;
-        margin-top: 2rem;
-    }
-}
-`
-const Box = styled.div`
-width:50%;
-height: 100%;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-`
-const Mesannonces = () => {
-    return(
-        <Section  id="Mesannonces">
-            <Container>
-              <Box> <h2>Mes </h2>   </Box>
-              <Box> <h2>Annonces</h2> </Box>
-            </Container>
-         </Section>
-       
+
+
+export default function Mesannonces() {
+    return (
+      <section className='mb-20 mt-20'> 
+      <Box sx={{ '& > :not(style)': { m: 1 } }} className='flex flex-col items-center mb-10'>
+      <button className='bg-violet-700 hover:bg-violet-800 rounded p-4 text-sm transition font-bold'> 
+          <Link to="/AjouterAnnonce" className='text-white'>Ajouter  annonce</Link> 
+      </button>
+      </Box>
+      <div className='container mx-auto'>
+          <AfficherAnnonce />
+           </div>
+        </section>
     )
 }
-export default Mesannonces;

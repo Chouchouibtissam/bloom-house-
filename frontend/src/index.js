@@ -4,14 +4,17 @@ import './index.css';
 import App from './App';
 import { BrowserRouter } from "react-router-dom";
 import "../node_modules/normalize.css/normalize.css";
+import AnnonceContextProvider from './Components/Annonce/AnnonceContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
+<AnnonceContextProvider>
+    <React.StrictMode>
     <BrowserRouter>
        <App />
     </BrowserRouter>
-  </React.StrictMode>
+   </React.StrictMode>
+  </AnnonceContextProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,11 +1,9 @@
-import React, { useEffect, useRef, useState  } from 'react';
+import React, { useRef, useState  } from 'react';
 import styled, { keyframes } from 'styled-components';
 import ImageAnimation from '../Components/HomeComponents/ImageAnimation';
 import emailjs from '@emailjs/browser';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import ImageMailAnimation from '../Components/ContactUsComponent/ImageMailAnimation';
-gsap.registerPlugin(ScrollTrigger)
+
 
 const Section = styled.section`
 min-height: calc(100vh - 80px); /* 100px -80px */
@@ -181,22 +179,9 @@ const styles = {
   };
   
 const ContactUs = () => {
-    gsap.registerPlugin(ScrollTrigger);
+ 
     const ref = useRef(null);
-    useEffect(() =>{
-        const element = ref.current;
-        ScrollTrigger.create({
-            trigger: element,
-            start:'top top',
-            end:'bottom top',
-            pin:true,
-            pinSpacing:false,
-            scrub:true,
-        })
-        return () =>{
-            ScrollTrigger.killAll();
-        };
-    }, [])
+    
     /* la partie Emailjs */
     const form = useRef();
 
