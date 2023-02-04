@@ -31,7 +31,11 @@ class AnnonceView (viewsets.ModelViewSet):
 
 class LocalisationView (viewsets.ModelViewSet):
     serializer_class = LocalisationSerializer
-    queryset = Localisation.objects.all()
+    def get_queryset(self):
+        Loca_id = self.request.query_params.get("locid")
+        MyAnnonceLocalisation = Localisation.objects.filter(id = Loca_id)
+        return MyAnnonceLocalisation
+    #queryset = Localisation.objects.all()
 
 class MesAnnoncesView (viewsets.ModelViewSet):
     serializer_class = AnnonceSerializer

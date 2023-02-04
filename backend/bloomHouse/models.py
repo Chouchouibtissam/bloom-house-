@@ -54,7 +54,7 @@ class Annonce (models.Model):
     AI_Prix = models.FloatField(default=0)
     AI_Localisation = models.ForeignKey(Localisation, on_delete=models.CASCADE, null=True)
     AI_Contact = models.ForeignKey(ContactInfo, on_delete=models.CASCADE, null=True)
-    #AI_Photo = models.ImageField()
+    AI_Photo = models.ImageField(upload_to='post_images')
     @property
     def AI_id (self):
         return self.id
