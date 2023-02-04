@@ -229,7 +229,7 @@ const ContactUs = () => {
                  <Textarea name='message' id='' cols={30} rows="10"  placeholder='message'>
                  </Textarea>
             </DivMessage>
-            <Button  disabled={isDisabled} onClick={handleClick}  style={isDisabled ? styles.buttonDisabled : styles.button}>Envoyer</Button>
+            <Button>Envoyer</Button>
            </Form>
          </Box>
         </Container>
