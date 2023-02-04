@@ -33,7 +33,7 @@ class GoogleSocialAuthSerializer(serializers.Serializer):
 class AnnonceSerializer(serializers.ModelSerializer):
     class Meta:
         model = Annonce
-        fields = ('AI_id','User_id', 'AI_Categorie', 'AI_Type', 'AI_Surface','AI_Description','AI_Prix', 'AI_Localisation', 'AI_Contact')
+        fields = ('AI_id','User_id', 'AI_Categorie', 'AI_Type', 'AI_Surface','AI_Description','AI_Prix', 'AI_Localisation', 'AI_Contact','AI_Photo')
 
 #Location serializer
 class LocalisationSerializer(serializers.ModelSerializer):

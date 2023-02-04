@@ -177,5 +177,7 @@ AUTHENTICATION_BACKENDS = (
    # 'https://www.googleapis.com/auth/userinfo.email',
 #]
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'  
 
 AUTH_USER_MODEL = 'bloomHouse.User'
