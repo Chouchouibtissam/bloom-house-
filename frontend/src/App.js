@@ -23,11 +23,13 @@ function App(props) {
        <MobileAppBar isOpen={isOpen} toggle={toggle} />
        <AppBar toggle={toggle} />
        <Routes>
-          <Route path="/" element={<Home />}/>
+          <Route path="/" element={<GoogleAuth />}/>
+          <Route path="/Home" element={<Home/>}/>
           <Route path="Recherche" element={<Recherche/>}/>
           <Route path="/details/:id" element={<AnnonceDetails />}/>
           <Route path="Mesannonces" element={<Mesannonces />} />
           <Route path="/details/:id" element={<AnnonceDetails />}/>
+          <Route path="/AjouterAnnonce" element={<AjouterAnnonce/>}/>
           <Route path="ContactUs" element={<ContactUs />}/>
        </Routes>
       </>

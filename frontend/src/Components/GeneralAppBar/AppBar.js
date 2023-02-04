@@ -122,7 +122,7 @@ const AppBar = ({toggle}) => {
                 </MobileIcon>
                 <NavMenu>
                     <NavItem>
-                     <NavLinks to="/"
+                     <NavLinks to="/Home"
                      activeClassName="active"
                      >Home</NavLinks>
                     </NavItem>

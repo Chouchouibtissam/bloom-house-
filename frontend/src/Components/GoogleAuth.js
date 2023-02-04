@@ -65,8 +65,10 @@ const GoogleAuth = () => {
         })
         .then((res) => res.json())
         .then((res) => { //Retrieve the coonected user's id and navigate to the home page
-          navigate('/Ajouterannonce', { state: { userId: res['user_id'] } })
-        })
+          navigate('/Home', {state:{userId:res['user_id']}});
+          console.log(res['user_id']);
+          localStorage.setItem('User_id',res['user_id'])
+        });
 
     }
   }

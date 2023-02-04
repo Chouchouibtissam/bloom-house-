@@ -5,6 +5,7 @@ import ImageAnimation from '../Components/HomeComponents/ImageAnimation';
 import PropTypes from 'prop-types';
 import AnnonceDetails from '../Components/Annonce/AnnonceDetails';
 import { Route, Routes } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const Section = styled.section`
 min-height: 60vh /*calc(100vh - 80px);  100px -80px */
@@ -41,6 +42,9 @@ justify-content: center;
 align-items: center;
 `
 const Home = () => {
+    const location = useLocation();
+    let User_id = location.state.userId;
+    
     return(
         <>
          <Section className='Home' id="Home">

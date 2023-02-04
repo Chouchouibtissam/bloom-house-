@@ -2,14 +2,14 @@ import { useState, useEffect, } from "react";
 import API from "../../API";
 import { useLocation } from "react-router-dom";
 import { Col, Form, Row } from "react-bootstrap";
-import { Button, createTheme } from "@mui/material";
+import { Button,  } from "@mui/material";
 import { Box } from "@mui/system";
-import AppBar from '../../Components/GeneralAppBar/AppBar';
 import "../../Style/HeroStyle.css";
 
-const AjouterAnnonce = ({ onAdd }) => {
-    const location = useLocation();
-    let User_id = location.state.userId;
+
+const AjouterAnnonce = ({ onAdd}) => {
+    
+    let User_id = localStorage.getItem('User_id')
     const [AI_Categorie, setAICategorie] = useState("");
     const [AI_Type, setAIType] = useState("");
     const [AI_Surface, setAISurface] = useState("");
@@ -23,55 +23,73 @@ const AjouterAnnonce = ({ onAdd }) => {
     const[email_contact,setemail] = useState("");
     const[telephone_contact,setnum] = useState("");
     const [AI_Prix, setAIPrix] = useState("");
-    const [AI_Localisation, setAILocalisation] = useState("");
-    const [AI_Contact, setAIContactInfo] = useState("");
-    //const [AI_Photo, setAIPhoto] = useState("");
+    let AI_Localisation = "";
+    let AI_Contact = "";
+    const [AI_Photo, setAIPhoto] = useState("");
     const [Annonces, setAnnonces] = useState([]);
-    const[isOpen, setIsOpen]=useState(false)
+    const[isOpen, setIsOpen]=useState(false);
+    
+
+
    const toggle = () =>{
-    setIsOpen(!isOpen)
-   }
+    setIsOpen(!isOpen);
+   };
 
     useEffect(() => {
         refreshAnnonces();
+        
     }, []);
 
-    const refreshAnnonces = () => { //Recuperation des annonces de cet utilisateur de la base de données
+ function refreshAnnonces () { //Recuperation des annonces de cet utilisateur de la base de données
         console.log(User_id);
-        API.get("mesannonces/mesannonces/", { params: { Userid: User_id } })
+       API.get("mesannonces/mesannonces/", { params: { Userid: User_id } })
             .then((res) => {
                 setAnnonces(res.data);
             })
-            .catch(console.error);
+            .catch(console.error); 
+    };
+  
+
+
+async function onSubmit(e) {
+        e.preventDefault();
+        //Sauvagarde dans la table de location et retourne le id
+        const Locid = await saveLocation();
+        console.log(Locid);
+        AI_Localisation = Locid;//on affecte le id a l'annonce
+        console.log(AI_Localisation);
+        //De même pour contact info
+        const contactid = await saveContactInfo();
+        AI_Contact = contactid;
+        console.log(AI_Contact);
+        let form_data = new FormData();
+        form_data.append('User_id',User_id);
+        form_data.append('AI_Categorie',AI_Categorie);
+        form_data.append('AI_Type',AI_Type);
+        form_data.append('AI_Surface',AI_Surface);
+        form_data.append('AI_Description',AI_Description);
+        form_data.append('AI_Prix',AI_Prix);
+        form_data.append('AI_Localisation',AI_Localisation);
+        form_data.append('AI_Contact',AI_Contact);
+        form_data.append('AI_Photo',AI_Photo);
+        console.log(User_id);
+        let item2 = { User_id, AI_Categorie, AI_Type, AI_Surface, AI_Description, AI_Prix, AI_Localisation, AI_Contact, AI_Photo };
+        API.post("annonce/annonce/", form_data).then(() => refreshAnnonces()); //Sauvgarder l'annonce et reintialiser la page
     };
 //Fonction qui envoie les données de Locatiolisation vers le backend et renvoie le id pour l'affecter a AI_localisation
-    async function saveLocation(){ 
-        let item1 = { wilaya, commune, adresse };
-        let res = await API.post("annonce/Localisation/", item1); //Sauvagarde dans la table de location et retourne le id
-        console.log(res);
-        let data = res.data.Loc_id; //Récupérer le id
-        console.log(data);
-        setAILocalisation(data); //on affecte le id a l'annonce
-        console.log(AI_Localisation);
-    }
+async function saveLocation(){ 
+    let item1 = { wilaya, commune, adresse };
+    const res = await API.post("annonce/Localisation/", item1);
+    const data= res.data.Loc_id;
+     return data;
+};
 //Fonction qui envoie les données de contact info vers le backend
-    async function saveContactInfo(){
-        let item = {nom_contact,prenom_contact,email_contact,telephone_contact,adresse_contact};
-        let res = await API.post("ContactInfo/ContactInfo/", item)
-        console.log(res);
-        let dataCont = res.data.Contact_id;
-        console.log(dataCont);
-        setAIContactInfo(dataCont);
-        console.log(AI_Contact);
-    }
-
-    async function onSubmit(e) {
-        e.preventDefault();
-         saveLocation();
-         saveContactInfo();
-        let item2 = { User_id, AI_Categorie, AI_Type, AI_Surface, AI_Description, AI_Prix, AI_Localisation, AI_Contact };
-        API.post("annonce/annonce/", item2).then(() => refreshAnnonces()); //Sauvgarder l'annonce et reintialiser la page
-    };
+async  function saveContactInfo(){
+    let item = {nom_contact,prenom_contact,email_contact,telephone_contact,adresse_contact};
+    const res = await API.post("ContactInfo/ContactInfo/", item);
+    const data = res.data.Contact_id;
+    return data;
+};
     const onDelete = (id) => {
         API.delete(`/${id}/`).then((res) => refreshAnnonces());
     };
@@ -86,7 +104,6 @@ const AjouterAnnonce = ({ onAdd }) => {
             
         }
         }> 
-            <header> <AppBar toggle={toggle}  /></header>
             <span className="col-md-4" >
                 <h1 className="customTitle" >Ajouter une nouvelle annonce</h1>
                 <Form onSubmit={onSubmit} className="mt-4">
@@ -226,6 +243,14 @@ const AjouterAnnonce = ({ onAdd }) => {
                             />
                         </Form.Group>
                     </Row>   
+                    <Form.Group controlId="formFile" className="form-margin">
+                        <Form.Label>Photo du bien immobilier</Form.Label>
+                        <Form.Control 
+                          type="file" 
+                          accept="image/png, image/jpeg"
+                          onChange={(e) => setAIPhoto(e.target.files[0])}
+                        />
+                    </Form.Group>
                         
                         <div >
                             <Button
@@ -248,6 +273,8 @@ const AjouterAnnonce = ({ onAdd }) => {
                             <th scope="col">Annonce categorie</th>
                             <th scope="col">Annonce type</th>
                             <th scope="col">Annonce prix</th>
+                            <th scope="col">Annonce wilaya</th>
+                            <th scope="col">Annonce nom contact</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -258,12 +285,12 @@ const AjouterAnnonce = ({ onAdd }) => {
                                     <th scope="row">{annonce.User_id}</th>
                                     <td> {annonce.AI_Categorie}</td>
                                     <td>{annonce.AI_Type}</td>
-                                    <td>{annonce.AI_Prix}</td>
+                                    <td>{annonce.AI_Prix}</td>    
                                     <td>
                                         <i
                                             className="fa fa-trash-o text-danger d-inline mx-3"
-                                            aria-hidden="true"
-                                            onClick={() => onDelete(annonce.User_id)}
+                                            aria-hidden="false"
+                                            onClick={() => onDelete(annonce.id)}
                                         ></i>
                                     </td>
                                 </tr>
